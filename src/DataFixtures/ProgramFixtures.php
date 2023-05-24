@@ -7,48 +7,31 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
+use Faker\Factory;
+
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const PROGRAMS =[
-        [
-            'title' => 'Friends',
-            'synopsis' => 'Salut les amis',
-            'reference' => 'category_Comedie',
-        ],
-
-        [
-            'title' => 'La guerre des mondes',
-            'synopsis' => 'Coucou nous voila',
-            'reference' => 'category_Action',
-        ],
-
-        [
-            'title' => 'One piece',
-            'synopsis' => 'gum gum',
-            'reference' => 'category_Animation',
-        ],
-
-        [
-            'title' => 'Start trek',
-            'synopsis' => 'La tête dans les étoiles',
-            'reference' => 'category_Aventure',
-        ],
-
-        [
-            'title' => 'Game of thrones',
-            'synopsis' => 'Il faut couper la tête',
-            'reference' => 'category_Horreur',
-        ]
-
-    ];
-
+    
     public function load(ObjectManager $manager)
     {
-        foreach (self::PROGRAMS as $key => $programValue) {
+        //Puis ici nous demandons à la Factory de nous fournir un Faker
+        $faker = Factory::create();
+
+        for($i = 0; $i < 50; $i++) {
             $program = new Program();
-            $program->setTitle($programValue['title']);
-            $program->setSynopsis($programValue['synopsis']);
-            $program->setCategory($this->getReference($programValue['reference']));
+            //Ce Faker va nous permettre d'alimenter l'instance de Season que l'on souhaite ajouter en base
+
+            $program->setTitle($faker->sentence());
+            $program->setSynopsis($faker->realText($maxNbChars = 200, $indexSize = 2));
+            $program->setPoster($faker->image(null, 640, 480));
+            $program->setCountry($faker->country());
+            $program->setYear($faker->year());
+            $randomCategoryKey = array_rand(CategoryFixtures::CATEGORIES);
+            $categoryName = CategoryFixtures::CATEGORIES[$randomCategoryKey];
+
+            $program->setCategory($this->getReference('category_' . $categoryName));
+            $this->addReference('program_' . $i, $program);
+
             $manager->persist($program);
         }
        

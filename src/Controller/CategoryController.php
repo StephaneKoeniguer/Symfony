@@ -30,11 +30,10 @@ class CategoryController extends AbstractController
 
         $program = $programRepository->findBy(
             ['category' => $categorie],
-            ['id' => 'DESC'],
-            3
+            ['id' => 'DESC']
         );
 
-        return $this->render('category/show.html.twig', ['programs' => $program]);
+        return $this->render('category/show.html.twig', ['programs' => $program, 'category' => $categorie]);
 
     } 
 }
