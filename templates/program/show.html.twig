@@ -15,7 +15,7 @@
            <p><span class="text-decoration-underline">Saison</span> N°: {{ season.number }} </p>
            <p><span class="text-decoration-underline">Année</span> : {{ season.year }} </p>
            <p><span class="text-decoration-underline">Description</span> : {{ season.description }} </p>
-            <p><a href="{{ path("program_season_show",{ id: program.id, seasonId: season.id }) }}"> Voir la saison </a></p>
+            <p><a href="{{ path("program_season_show",{ "program": program.id, "season": season.id }) }}"> Voir la saison </a></p>
     {% endfor %}
 
     <a href="{{ path('program_index') }}">
