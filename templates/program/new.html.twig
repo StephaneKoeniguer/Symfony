@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
     {{ form_widget(form) }}
     <button type="submit">Add program</button>
     {{ form_end(form) }}
