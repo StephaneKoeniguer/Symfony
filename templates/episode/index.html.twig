@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tous les épisode{% endblock %}
+{% block title %} {{ parent() }} - Tous les épisodes{% endblock %}
 
 {% block body %}
     <h1>Liste des épisode</h1>
@@ -16,8 +16,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Titra</th>
+                <th>Titre</th>
                 <th>Numéro</th>
                 <th>Résumé</th>
                 <th>Actions</th>
@@ -26,7 +25,6 @@
         <tbody>
         {% for episode in episodes %}
             <tr>
-                <td>{{ episode.id }}</td>
                 <td>{{ episode.title }}</td>
                 <td>{{ episode.number }}</td>
                 <td>{{ episode.synopsis }}</td>

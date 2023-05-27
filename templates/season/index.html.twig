@@ -16,9 +16,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Number</th>
-                <th>Year</th>
+                <th>Numéro</th>
+                <th>Année</th>
                 <th>Description</th>
                 <th>Actions</th>
             </tr>
@@ -26,18 +25,17 @@
         <tbody>
         {% for season in seasons %}
             <tr>
-                <td>{{ season.id }}</td>
                 <td>{{ season.number }}</td>
                 <td>{{ season.year }}</td>
                 <td>{{ season.description }}</td>
                 <td>
-                    <a href="{{ path('app_season_show', {'id': season.id}) }}">show</a>
-                    <a href="{{ path('app_season_edit', {'id': season.id}) }}">edit</a>
+                    <a href="{{ path('app_season_show', {'id': season.id}) }}">Voir</a>
+                    <a href="{{ path('app_season_edit', {'id': season.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Pas de saisons trouvées</td>
             </tr>
         {% endfor %}
         </tbody>

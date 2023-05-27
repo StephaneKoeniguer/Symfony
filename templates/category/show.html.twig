@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Programmes{% endblock %}
+{% block title %} {{ parent() }} - Programmes{% endblock %}
 
 {% block body %}
     <h1>Toutes les séries de la catégorie : {{ category.name}}</h1>

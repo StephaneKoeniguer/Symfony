@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Toutes les séries{% endblock %}
+{% block title %} {{ parent() }} - Toutes les séries{% endblock %}
 
 {% block body %}
     <h1 class="d-flex justify-content-center text-uppercase">Toutes nos séries </h1>
@@ -21,6 +21,7 @@
             {# Lien vers la fiche de la série : #}
             <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
         </div>
+        <hr>
     {% else %}
         Aucune série trouvée.
     {% endfor %}
