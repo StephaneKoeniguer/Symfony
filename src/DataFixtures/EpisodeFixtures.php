@@ -19,7 +19,7 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
             $episode = new Episode();
             //Ce Faker va nous permettre d'alimenter l'instance de Season que l'on souhaite ajouter en base
 
-            $episode->setTitle($faker->sentence());
+            $episode->setTitle($faker->realText($maxNbChars = 10, $indexSize = 2));
             $episode->setSynopsis($faker->paragraphs(3, true));
             $episode->setNumber($faker->numberBetween(1, 10));
 

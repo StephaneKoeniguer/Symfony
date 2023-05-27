@@ -17,13 +17,13 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         //Puis ici nous demandons à la Factory de nous fournir un Faker
         $faker = Factory::create();
 
-        for($i = 0; $i < 50; $i++) {
+        for($i = 0; $i < 20; $i++) {
             $program = new Program();
             //Ce Faker va nous permettre d'alimenter l'instance de Season que l'on souhaite ajouter en base
 
-            $program->setTitle($faker->sentence());
+            $program->setTitle($faker->realText($maxNbChars = 10, $indexSize = 2));
             $program->setSynopsis($faker->realText($maxNbChars = 200, $indexSize = 2));
-            $program->setPoster($faker->image(null, 640, 480));
+            $program->setPoster($faker->realText($maxNbChars = 10, $indexSize = 2));
             $program->setCountry($faker->country());
             $program->setYear($faker->year());
             $randomCategoryKey = array_rand(CategoryFixtures::CATEGORIES);
