@@ -1,18 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}All categories{% endblock %}
+{% block title %}Categories{% endblock %}
 
 {% block body %}
-    <h1 class="d-flex justify-content-center text-uppercase">Toutes les catégories disponibles</h1>
-    {% for categorie in categories %}
-        <div class="d-flex justify-content-center">
-            <p><a href="{{ categorie.name }}">{{ categorie.name }}</a></p>  
-        </div>
-    {% else %}
-        Aucune catégorie trouvée.
+    <h1 class="d-flex justify-content-center text-uppercase mb-4">Toutes les catégories disponibles</h1>
+    {% for category, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }}">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                {{ message }}
+                </div>
+            {% endfor %}
     {% endfor %}
-
-    <a class="d-flex justify-content-center" href="{{ path('app_index') }}">
+    <div class="row">
+        {% for categorie in categories %}
+            <div class="col-md-3 mb-4">  
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                    <h5 class="card-title text-decoration-underline">{{ categorie.name }}</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="{{ categorie.name }}" class="btn btn-primary">Voir les séries</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col">
+                Aucune catégorie trouvée.
+                </div>
+        {% endfor %}
+    </div>
+    <hr>
+    <a class="d-flex justify-content-center text-decoration-none" href="{{ path('app_index') }}">
         Retour à l'accueil
     </a>
 

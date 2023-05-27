@@ -9,6 +9,7 @@ use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -16,8 +17,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CategoryController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(CategoryRepository $categoryRepository): Response
+    public function index(CategoryRepository $categoryRepository, RequestStack $requestStack): Response
     {
+        $session = $requestStack->getSession();
         $categories = $categoryRepository->findAll();
         return $this->render('category/index.html.twig', ['categories' => $categories]);
     }
@@ -35,6 +37,7 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted()) {
             $categoryRepository->save($category, true);
             // Redirect to categories list
+            $this->addFlash('success', 'Une nouvelle catégory à été créee');
             return $this->redirectToRoute('category_index');
         }
         

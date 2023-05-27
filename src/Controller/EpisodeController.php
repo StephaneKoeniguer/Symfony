@@ -31,6 +31,7 @@ class EpisodeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $episodeRepository->save($episode, true);
 
+            $this->addFlash('success', 'Un nouvel épisode à été ajouté');
             return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -57,6 +58,7 @@ class EpisodeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $episodeRepository->save($episode, true);
 
+            $this->addFlash('success', 'L\'épisode bien été modifié');
             return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -73,6 +75,7 @@ class EpisodeController extends AbstractController
             $episodeRepository->remove($episode, true);
         }
 
+        $this->addFlash('danger', 'L\'épisode bien été supprimé');
         return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -4,7 +4,15 @@
 
 {% block body %}
     <h1>Season index</h1>
-
+    {% for category, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }}">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                {{ message }}
+                </div>
+            {% endfor %}
+    {% endfor %}
+    <a href="{{ path('app_season_new') }}">Create new</a>
     <table class="table">
         <thead>
             <tr>
@@ -12,7 +20,7 @@
                 <th>Number</th>
                 <th>Year</th>
                 <th>Description</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +42,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_season_new') }}">Create new</a>
 {% endblock %}
