@@ -1,27 +1,34 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">LOGO</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Wild Series</font></font></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Basculer la navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <a class="nav-link active" href="/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Home
+            </font></font><span class="visually-hidden"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">(actuel)</font></font></span>
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ path("category_index")}}">Catégories</a>
+          <a class="nav-link" href="{{ path("category_index")}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Catégories</font></font></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ path("program_index")}}">Séries</a>
+          <a class="nav-link" href="{{ path("program_index")}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Séries</font></font></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ path("app_season_index")}}">Saison</a>
+          <a class="nav-link" href="{{ path("app_season_index")}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Saison</font></font></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ path("app_episode_index")}}">Épisodes</a>
+          <a class="nav-link" href="{{ path("app_episode_index")}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Épisodes</font></font></a>
         </li>
       </ul>
+      <form class="d-flex">
+        <input class="form-control me-sm-2" type="search" placeholder="Recherche">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rechercher</font></font></button>
+      </form>
     </div>
   </div>
 </nav>
+<hr>

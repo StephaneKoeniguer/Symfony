@@ -1,10 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}All programs{% endblock %}
+{% block title %}Toutes les séries{% endblock %}
 
 {% block body %}
     <h1 class="d-flex justify-content-center text-uppercase">Toutes nos séries </h1>
     <hr>
+    {% for category, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }}">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                {{ message }}
+                </div>
+            {% endfor %}
+    {% endfor %}
     {% for program in programs %}
         <div>
             <h2>{{ loop.index }} - {{ program.title }}</h2>

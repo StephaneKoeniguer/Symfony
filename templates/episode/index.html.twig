@@ -1,18 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Episode index{% endblock %}
+{% block title %}Tous les épisode{% endblock %}
 
 {% block body %}
-    <h1>Episode index</h1>
-
+    <h1>Liste des épisode</h1>
+    {% for category, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }}">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				    {{ message }}
+                </div>
+            {% endfor %}
+    {% endfor %}
+    <a href="{{ path('app_episode_new') }}">Create new part</a>
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Title</th>
-                <th>Number</th>
-                <th>Synopsis</th>
-                <th>actions</th>
+                <th>Titra</th>
+                <th>Numéro</th>
+                <th>Résumé</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -23,17 +31,15 @@
                 <td>{{ episode.number }}</td>
                 <td>{{ episode.synopsis }}</td>
                 <td>
-                    <a href="{{ path('app_episode_show', {'id': episode.id}) }}">show</a>
-                    <a href="{{ path('app_episode_edit', {'id': episode.id}) }}">edit</a>
+                    <a href="{{ path('app_episode_show', {'id': episode.id}) }}">Voir</a>
+                    <a href="{{ path('app_episode_edit', {'id': episode.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Pas d'épisode trouvés</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_episode_new') }}">Create new</a>
 {% endblock %}
