@@ -2,16 +2,23 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Program;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Persistence\ObjectManager;
-
 use Faker\Factory;
+use App\Entity\Program;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
-    
+    private SluggerInterface $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+
     public function load(ObjectManager $manager)
     {
         //Puis ici nous demandons à la Factory de nous fournir un Faker
@@ -22,6 +29,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             //Ce Faker va nous permettre d'alimenter l'instance de Season que l'on souhaite ajouter en base
 
             $program->setTitle($faker->realText($maxNbChars = 10, $indexSize = 2));
+            $program->setSlug($this->slugger->slug($program->getTitle()));
             $program->setSynopsis($faker->realText($maxNbChars = 200, $indexSize = 2));
             $program->setPoster($faker->realText($maxNbChars = 10, $indexSize = 2));
             $program->setCountry($faker->country());
