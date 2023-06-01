@@ -7,16 +7,18 @@ use App\Entity\Episode;
 use App\Entity\Program;
 use App\Form\ProgramType;
 use App\Service\ProgramDuration;
+use Symfony\Component\Mime\Email;
 use App\Repository\SeasonRepository;
 use App\Repository\EpisodeRepository;
 use App\Repository\ProgramRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 #[Route('/program', name: 'program_')]
@@ -31,7 +33,7 @@ class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new')]
-    public function new(Request $request, ProgramRepository $programRepository, SluggerInterface $slugger): Response
+    public function new(Request $request, MailerInterface $mailer, ProgramRepository $programRepository, SluggerInterface $slugger): Response
     {
         $program = new Program();
 
@@ -44,8 +46,17 @@ class ProgramController extends AbstractController
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
             $programRepository->save($program, true);
-            // Redirect to categories list
+
+            $email = (new Email())
+                ->from($this->getParameter('mailer_from'))
+                ->to('skoeniguer@free.fr')
+                ->subject('Une nouvelle série vient d\'être publiée !')
+                ->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program]));
+
+            $mailer->send($email);
+            
             $this->addFlash('success', 'Un nouveau program à été crée');
+            // Redirect to categories list
             return $this->redirectToRoute('program_index');
         }
         
