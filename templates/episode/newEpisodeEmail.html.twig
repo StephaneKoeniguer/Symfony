@@ -7,5 +7,5 @@
     <h1>Un nouvel épisode {{ episode.title }} a été ajouté</h1>
     <p>Hello, l'épisode n°<strong>{{ episode.number }} - {{ episode.title }} </strong> de la série <strong> {{ episode.season.program.title}} </strong> a été ajouté sur Wild Series</p>
     <p>Synopsis : <strong> {{ episode.synopsis }} </strong></p>
-    <p>lien vers l'épisode <a href="{{ path('app_episode_show', {'slug': episode.slug}) }}">Voir</a></p>
+    <p>lien vers l'épisode <a href="http://127.0.0.1:8000{{ path('app_episode_show', {'slug': episode.slug}) }}">Voir</a></p>
 {% endblock %}

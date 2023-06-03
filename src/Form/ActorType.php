@@ -10,37 +10,32 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
-class ProgramType extends AbstractType
+
+class ActorType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('synopsis', TextType::class)
-            ->add('country', TextType::class)
-            ->add('year', IntegerType::class)
+            ->add('name', TextType::class)
             ->add('posterFile', VichFileType::class, [
                 'required'      => false,
                 'allow_delete'  => true, // not mandatory, default is true
                 'download_uri' => true, // not mandatory, default is true
             ])
-            ->add('category', null, ['choice_label' => 'name'])
-            ->add('actors', EntityType::class, [
+            ->add('programs', EntityType::class, [
                 'by_reference' => false,
-                'class' => Actor::class,
-                'choice_label' => 'name',
+                'class' => Program::class,
+                'choice_label' => 'title',
                 'multiple' => true,
-                'expanded' => true,
+                'expanded' => false,
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Program::class,
+            'data_class' => Actor::class,
         ]);
     }
 }

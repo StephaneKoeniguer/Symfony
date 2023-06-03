@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ parent() }} - Formulaire{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary mt-4" type="submit">Enregistrer</button>
+    {{ form_end(form) }}
+    
+{% endblock %}

@@ -7,10 +7,12 @@
     <hr>
     {% for category, messages in app.flashes %}
             {% for message in messages %}
+            <div class="container-sm">
                 <div class="alert alert-{{ category }}">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                {{ message }}
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+                    {{ message }}
                 </div>
+            </div>
             {% endfor %}
     {% endfor %}
     {% for program in programs %}
