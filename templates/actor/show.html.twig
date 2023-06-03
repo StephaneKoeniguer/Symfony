@@ -7,6 +7,8 @@
 <div class="example-wrapper">
 
     <h2>Séries</h2>
+    <p>Photo</p>
+    <img class="align-self-start mr-3" src="{{ vich_uploader_asset(actor) }}" alt="{{ actor.name }} poster">
     {% for program in actor.programs %}
         <p><span class="text-decoration-underline">Titre:</span><br><a href="{{ path("program_show", { slug: program.slug }) }}">{{ program.title}}</a></p>
     {% endfor %}
