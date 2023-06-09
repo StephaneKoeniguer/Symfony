@@ -28,17 +28,22 @@
 
     <h5>Commentaires: </h5>
     {% for comment in comments %}
-       <p>{{ comment.comment }}</p>
+       <p>{{ comment.comment }}
+       {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_CONTRIBUTOR") %}
+       - <a href="{{ path('app_comment_delete', { 'id': comment.id}) }}">Supprimer</a></p>
+       {% endif %}
     {% endfor %}
 
-    <a href="{{ path('app_episode_index') }}">Retour à la liste des épisodes</a>
-
-    <a href="{{ path('app_episode_edit', {'slug': episode.slug}) }}">Modifier</a>
-
+    <p>
     {% if app.user %}
+    <a href="{{ path('app_episode_edit', {'slug': episode.slug}) }}">Modifier l'épisode</a>
+    {% endif %}
+    </p>
+    <p>
+    {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_CONTRIBUTOR") %}
         <a href="{{ path('app_comment_new', {'id': episode.id}) }}">Ajouter un commentaire</a>
     {% endif %}
-    
-    
+    </p>
+    <p><a href="{{ path('app_episode_index') }}">Retour à la liste des épisodes</a></p>
     {{ include('episode/_delete_form.html.twig') }}
 {% endblock %}

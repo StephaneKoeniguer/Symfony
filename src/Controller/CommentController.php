@@ -11,11 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 #[Route('/comment')]
 class CommentController extends AbstractController
 {
     #[Route('/', name: 'app_comment_index', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(CommentRepository $commentRepository): Response
     {
         return $this->render('comment/index.html.twig', [
@@ -33,15 +36,13 @@ class CommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $user = $tokenStorage->getToken()->getUser();
-            //$userId = $user->getId();
-
-            $comment->setAuthor($user);
             $episode = $episodeRepository->find($id);
+            $comment->setAuthor($user);
             $comment->setEpisode($episode);
-
+            $comment->setOwner($this->getUser());
             $commentRepository->save($comment, true);
 
-            return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('comment/new.html.twig', [
@@ -61,6 +62,12 @@ class CommentController extends AbstractController
     #[Route('/{id}/edit', name: 'app_comment_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Comment $comment, CommentRepository $commentRepository): Response
     {
+        // If not the owner and admin, throws a 403 Access Denied exception
+        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser() !== $comment->getOwner()) {
+            
+            throw $this->createAccessDeniedException('Seul le propriétaire peut modifier le commentaire');
+        }
+
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
@@ -76,13 +83,17 @@ class CommentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_comment_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_comment_delete', methods: ['GET', 'POST'])]
     public function delete(Request $request, Comment $comment, CommentRepository $commentRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
-            $commentRepository->remove($comment, true);
+        // If not the owner and admin, throws a 403 Access Denied exception
+        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser() !== $comment->getOwner()) {
+            
+            throw $this->createAccessDeniedException('Seul le propriétaire peut supprimer le commentaire');
         }
 
-        return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
+        $commentRepository->remove($comment, true);
+
+        return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
     }
 }

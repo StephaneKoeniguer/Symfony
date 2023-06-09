@@ -27,6 +27,9 @@ class Comment
     #[ORM\Column(nullable: true)]
     private ?int $rate = null;
 
+    #[ORM\ManyToOne]
+    private ?User $owner = null;
+
     public function __construct()
     {
         $this->user_id = new ArrayCollection();
@@ -93,6 +96,18 @@ class Comment
     public function setRate(?int $rate): self
     {
         $this->rate = $rate;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

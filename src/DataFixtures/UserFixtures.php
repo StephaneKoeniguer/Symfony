@@ -28,6 +28,7 @@ class UserFixtures extends Fixture
         );
 
         $contributor->setPassword($hashedPassword);
+        $this->addReference('contributor1', $contributor);
         $manager->persist($contributor);
 
         // Création d’un utilisateur de type “administrateur”
@@ -39,6 +40,7 @@ class UserFixtures extends Fixture
             'andrea'
         );
         $admin->setPassword($hashedPassword);
+        $this->addReference('admin1', $contributor);
         $manager->persist($admin);
 
         $manager->flush();
