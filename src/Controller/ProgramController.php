@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
 #[Route('/program', name: 'program_')]
@@ -45,6 +46,7 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
+            $program->setOwner($this->getUser());
             $programRepository->save($program, true);
 
             $email = (new Email())
@@ -96,6 +98,31 @@ class ProgramController extends AbstractController
     {
         return $this->render('program/episode_show.html.twig', ['program' => $program, 'seasons' => $season, 'episode' => $episode]);
 
+    }
+
+    #[Route('/{slug}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Program $program, ProgramRepository $programRepository): Response
+    {
+        // If not the owner and admin, throws a 403 Access Denied exception
+        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser() !== $program->getOwner()) {
+            
+            throw $this->createAccessDeniedException('Seul le propriétaire peut modifier le program');
+        }
+
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $programRepository->save($program, true);
+
+            $this->addFlash('success', 'Le programme veins d\'être modifié');
+            return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('program/new.html.twig', [
+            'program' => $program,
+            'form' => $form,
+        ]);
     }
 
 }

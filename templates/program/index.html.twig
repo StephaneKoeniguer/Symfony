@@ -21,7 +21,10 @@
             <p class="fs-4">Catégorie : {{ program.category.name }}</p>
             <p>{{ program.synopsis }}</p>
             {# Lien vers la fiche de la série : #}
-            <a href="{{ path("program_show", { slug: program.slug }) }}">Voir la fiche</a>
+            <a href="{{ path("program_show", { slug: program.slug }) }}">Voir la fiche</a><br>
+            {% if is_granted("ROLE_ADMIN") or is_granted("ROLE_CONTRIBUTOR") %}
+                <a href="{{ path('program_edit', { 'slug': program.slug} ) }}">Éditer</a>
+            {% endif %}
         </div>
         <hr>
     {% else %}

@@ -3,10 +3,11 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\User;
 use App\Entity\Program;
 use Doctrine\Persistence\ObjectManager;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
@@ -34,10 +35,14 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->setPoster($faker->realText($maxNbChars = 10, $indexSize = 2));
             $program->setCountry($faker->country());
             $program->setYear($faker->year());
+
             $randomCategoryKey = array_rand(CategoryFixtures::CATEGORIES);
             $categoryName = CategoryFixtures::CATEGORIES[$randomCategoryKey];
 
+            $user = new User();
+
             $program->setCategory($this->getReference('category_' . $categoryName));
+            $program->setOwner($this->getReference('contributor1'));
             $this->addReference('program_' . $i, $program);
 
             $manager->persist($program);
