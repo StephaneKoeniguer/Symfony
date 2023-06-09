@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Episode;
 use App\Form\EpisodeType;
 use Symfony\Component\Mime\Email;
+use App\Repository\CommentRepository;
 use App\Repository\EpisodeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -56,10 +57,13 @@ class EpisodeController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'app_episode_show', methods: ['GET'])]
-    public function show(Episode $episode): Response
+    public function show(Episode $episode, CommentRepository $commentRepository): Response
     {
+        $comments = $commentRepository->findBy(['episode' => $episode]);
+
         return $this->render('episode/show.html.twig', [
             'episode' => $episode,
+            'comments' => $comments,
         ]);
     }
 

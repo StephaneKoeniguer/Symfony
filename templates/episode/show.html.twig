@@ -26,9 +26,19 @@
         </tbody>
     </table>
 
+    <h5>Commentaires: </h5>
+    {% for comment in comments %}
+       <p>{{ comment.comment }}</p>
+    {% endfor %}
+
     <a href="{{ path('app_episode_index') }}">Retour à la liste des épisodes</a>
 
     <a href="{{ path('app_episode_edit', {'slug': episode.slug}) }}">Modifier</a>
 
+    {% if app.user %}
+        <a href="{{ path('app_comment_new', {'id': episode.id}) }}">Ajouter un commentaire</a>
+    {% endif %}
+    
+    
     {{ include('episode/_delete_form.html.twig') }}
 {% endblock %}
