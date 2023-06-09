@@ -15,9 +15,6 @@
           <a class="nav-link" href="{{ path("category_index")}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Catégories</font></font></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ path("program_index")}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Séries</font></font></a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="{{ path("app_season_index")}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Saison</font></font></a>
         </li>
         <li class="nav-item">
@@ -25,12 +22,28 @@
         </li>
         <li class="nav-item">
         {% if app.user %}
-            {{ app.user.username }}
-              <a class="nav-link" href="{{ path('app_logout') }}"> Se déconnecter</a>
-            {% else %}
-              <a class="nav-link" href="{{ path('app_login') }}"> Se connecter</a>
-            {% endif %}
+        <div class="d-flex">
+            <a class="nav-link" href="#">{{ app.user.username }}</a>
+        {% endif %}
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Mon compte
+          </a>
+          <ul class="dropdown-menu">
+            {% if app.user %}
+            <li><a class="dropdown-item" href="{{ path('app_logout') }}"> Se déconnecter</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ path('profil_index') }}">Profil</a></li>
+            {% else %}
+            <li><a class="dropdown-item" href="{{ path('register_new') }}">S'inscrire</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_login') }}">Se connecter</a></li>
+            {% endif %}
+          </ul>
+        </li>
+
+
+
       </ul>
       <form class="d-flex">
         <input class="form-control me-sm-2" type="search" placeholder="Recherche">
