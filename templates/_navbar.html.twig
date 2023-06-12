@@ -12,7 +12,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ path("category_index")}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Catégories</font></font></a>
+          {{ component('navbar') }}
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ path("app_season_index")}}"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Saison</font></font></a>
@@ -41,13 +41,11 @@
             {% endif %}
           </ul>
         </li>
-
-
-
       </ul>
-      <form class="d-flex">
+      <form class="d-flex" {{ stimulus_controller('theme') }}>
         <input class="form-control me-sm-2" type="search" placeholder="Recherche">
         <button class="btn btn-secondary my-2 my-sm-0" type="submit"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rechercher</font></font></button>
+        <button  {{ stimulus_action('theme', 'toggleDarkMode') }}>Dark mode</button>
       </form>
     </div>
   </div>
