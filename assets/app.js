@@ -9,4 +9,7 @@
 import './styles/app.scss';
 
 // start the Stimulus application
+
+// start bootstrap
 import './bootstrap';
+import 'bootstrap-icons/font/bootstrap-icons.css'; 

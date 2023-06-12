@@ -9,6 +9,7 @@ use App\Form\ProgramType;
 use App\Form\SearchProgramType;
 use App\Service\ProgramDuration;
 use Symfony\Component\Mime\Email;
+use App\Repository\UserRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\EpisodeRepository;
 use App\Repository\ProgramRepository;
@@ -137,6 +138,26 @@ class ProgramController extends AbstractController
             'program' => $program,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{slug}/watchlist', name: 'watchlist', methods: ['GET', 'POST'])]
+    public function addToWatchlist(Program $program, UserRepository $userRepository)
+    {
+        if (!$program) {
+            throw $this->createNotFoundException(
+                'No program with this id found in program\'s table.'
+            );
+        }
+
+        /** @var \App\Entity\User */
+        $user = $this->getUser();
+        if ($user->isInWatchlist($program)) {
+            $user->removeWatchlist($program);
+        } else {
+            $user->addWatchlist($program);
+        }
+        $userRepository->save($user, true);
+        return $this->redirectToRoute('program_show', ['slug' => $program->getSlug(), Response::HTTP_SEE_OTHER]);
     }
 
 }
