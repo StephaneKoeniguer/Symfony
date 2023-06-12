@@ -4,11 +4,25 @@
 
 {% block body %}
 
+
 <div>
 <a href="{{ path("actor_index")}}">Acteurs / Actrices</a>
 </div>
 
-<h1 class="d-flex justify-content-center text-uppercase">Toutes nos séries </h1>
+<h1 class="d-flex justify-content-center text-uppercase"
+            {{ stimulus_controller('symfony/ux-typed', {
+                strings: [
+                    'Bienvenue sur Wild Series',
+                    'Le meilleur site pour suivre tes séries préférées',
+                    'Découvre les dernières actus sur les séries du moment',
+                ],
+                loop : true,
+                typeSpeed : 50,
+                backSpeed : 80,
+                backDelay : 1000,
+                loopCount : 10
+            }) }}
+        ></h1>
     <hr>
     {% for category, messages in app.flashes %}
             {% for message in messages %}

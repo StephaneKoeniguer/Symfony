@@ -1,0 +1,11 @@
+<div{{ attributes }}>
+    <p>
+    {% for episode in this.episodes %}
+        <ul>
+            <li>            
+                <a href="#">{{ episode.title }}</a>
+            </li>
+        </ul>
+    {% endfor %}
+    </p>
+</div>

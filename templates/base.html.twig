@@ -23,7 +23,13 @@
    
 
 
-    <body class="container">
-        {% block body %}{% endblock %}
+    <body class="container" {{ stimulus_controller('symfony/ux-swup/swup') }} {{ stimulus_controller('theme') }} {{ stimulus_target('theme', 'body') }}>
+        <div id="swup">
+            {% block body %}{% endblock %}
+        </div>
     </body>
+
+    <footer>
+        {% include "_footer.html.twig" %}
+    </footer>
 </html>
