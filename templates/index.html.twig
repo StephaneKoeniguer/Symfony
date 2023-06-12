@@ -24,6 +24,12 @@
             }) }}
         ></h1>
     <hr>
+        <h2>Rechercher</h2>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button>Search</button>
+        {{ form_end(form) }}
+    <hr>
     {% for category, messages in app.flashes %}
             {% for message in messages %}
             <div class="container-sm">

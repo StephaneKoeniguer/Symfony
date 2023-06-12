@@ -6,6 +6,7 @@ use App\Entity\Season;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Form\ProgramType;
+use App\Form\SearchProgramType;
 use App\Service\ProgramDuration;
 use Symfony\Component\Mime\Email;
 use App\Repository\SeasonRepository;
@@ -26,11 +27,24 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class ProgramController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ProgramRepository $programRepository, RequestStack $requestStack): Response
+    public function index(Request $request, ProgramRepository $programRepository, RequestStack $requestStack): Response
     {
         $session = $requestStack->getSession();
+        $form = $this->createForm(SearchProgramType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+        $search = $form->getData()['search'];
+        $programs = $programRepository->findBy(['title' => $search]);
+        } else {
         $programs = $programRepository->findAll();
-        return $this->render('program/index.html.twig', ['programs' => $programs]);
+        }
+
+        return $this->render('program/index.html.twig', [
+        'programs' => $programs,
+        'form' => $form,
+        ]);
+
     }
 
     #[Route('/new', name: 'new')]
